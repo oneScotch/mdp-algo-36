@@ -2,6 +2,8 @@ from Settings.config import *
 
 
 # Robot Attributes
+ROBOT_START_X = 15 * SCALING_FACTOR
+ROBOT_START_Y = 4 * SCALING_FACTOR
 ROBOT_LENGTH = 20 * SCALING_FACTOR  # Recommended robot footprint is 30cm by 30cm
 ROBOT_TURN_RADIUS = 30 * SCALING_FACTOR
 ROBOT_SPEED_PER_SECOND = 30 * SCALING_FACTOR
