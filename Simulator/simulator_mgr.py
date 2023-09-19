@@ -1,7 +1,6 @@
 import json
 from typing import List
 from Map.obstacle import Obstacle
-from Settings.attributes import *
 from Settings.direction import Direction
 
 
@@ -13,7 +12,7 @@ def parse_obstacle_data_old(data) -> List[Obstacle]:
                             obstacle_params[1],
                             Direction(obstacle_params[2]),
                             obstacle_params[3]))
-
+                            
     # [[x, y, orient, index], [x, y, orient, index]]
     return obs
 
@@ -27,8 +26,10 @@ def parse_obstacle_data_cur(data) -> List[Obstacle]:
         lst.append(obj)
 
     for i in lst:
-        i["x"] = (GRID_CELL_LENGTH / 2 + GRID_CELL_LENGTH * i["x"])
-        i["y"] = (GRID_CELL_LENGTH / 2 + GRID_CELL_LENGTH * i["y"])
+        i["x"] *= 10
+        i["x"] += 5
+        i["y"] *= 10
+        i["y"] += 5
         i["obs_id"] -= 1
 
     a = [list(row) for row in zip(*[m.values() for m in lst])]
@@ -37,7 +38,7 @@ def parse_obstacle_data_cur(data) -> List[Obstacle]:
         lst2 = [item[i] for item in a]
         lst3.append(lst2)
         i+=1
-
+        
     for obstacle_params in lst3:
         obs.append(Obstacle(obstacle_params[0],
                             obstacle_params[1],
@@ -64,6 +65,6 @@ def parse_obstacle_data_new(data) -> List[Obstacle]:
                             obstacle_params[1],
                             Direction(obstacle_params[2]),
                             obstacle_params[3]))
-
+                            
     # [[x, y, orient, index], [x, y, orient, index]]
     return obs
