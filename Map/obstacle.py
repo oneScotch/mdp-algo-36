@@ -27,6 +27,9 @@ class Obstacle:
                                                    (50, 50))
 
         self.index = index
+    def copy(self):
+        return type(self)(self.pos, self.target_image, self.index)
+
     def getIndex(self):
         return self.index
 
