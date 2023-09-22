@@ -15,9 +15,13 @@ class ModifiedAStar:
         # to the exact grid.
         self.grid: Grid = grid.copy()
         self.brain = brain
+        self.total_cost = 0
 
         self.start = start
         self.end = end
+
+    def getTotalCost(self):
+        return self.total_cost
 
     def get_neighbours(self, pos: RobotPosition) -> List[Tuple[Node, RobotPosition, int, Command]]:
         """
@@ -115,12 +119,13 @@ class ModifiedAStar:
             if current_node == goal_node:
                 # Get the commands needed to get to destination.
                 self.extract_commands(backtrack, goal_node)
+                self.total_cost=cost[goal_node]
                 return current_position
 
             # Otherwise, we check through all possible locations that we can
             # travel to from this node.
             for new_node, new_pos, weight, c in self.get_neighbours(current_position):
-                
+
                 new_cost = cost.get(current_node) + weight
 
                 if new_node not in backtrack or new_cost < cost[new_node]:

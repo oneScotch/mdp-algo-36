@@ -1,5 +1,6 @@
 import itertools
 import math
+import sys
 from collections import deque
 from typing import Tuple
 from Map.obstacle import Obstacle
@@ -45,7 +46,7 @@ class Brain:
             return dist
 
         simple = min(perms, key=calc_distance)
-        
+
         print("Found a simple hamiltonian path:")
         for ob in simple:
             index_list.append(ob.getIndex())
@@ -97,6 +98,93 @@ class Brain:
         self.compress_paths()
         print("-" * 70)
         return index_list
+
+    def compute_simple_hamiltonian_path2(self):
+        total_obstacles = self.grid.obstacles
+        numberOfTargets = len(total_obstacles)
+
+        exploreList = deque()
+        missingGoals = deque()
+        visited = [0] * numberOfTargets
+        posToDropAndTryAgain = None
+        index_list = []
+
+        curr = self.robot.pos.copy()
+        for i in range (total_obstacles):
+            nearestNeighbour = None
+            nearestCost = 0
+            for obstacle in total_obstacles:
+                index = obstacle.getIndex()
+                if visited[index] != 1:
+                    target = obstacle.get_robot_target_pos()
+                    inital = ModifiedAStar(self.grid, self, curr, target)
+                    res = inital.start_astar()
+                    if res is None:
+                        print(f"No path found from {curr} to {obstacle}")
+                        posToDropAndTryAgain = target
+                        break
+                    cost = inital.getTotalCost()
+                    if nearestNeighbour is None:
+                        nearestNeighbour = obstacle.copy()
+                        nearestCost = cost
+                    elif cost <= nearestCost:
+                        nearestNeighbour = obstacle.copy()
+                        nearestCost = cost
+            if posToDropAndTryAgain is not None:
+                missingGoals.append(posToDropAndTryAgain)
+                total_obstacles.remove(posToDropAndTryAgain)
+                posToDropAndTryAgain = None
+            else:
+                # Pop the first one, which is the one with the least cost.
+                exploreList.append(nearestNeighbour)
+                visited[nearestNeighbour.getIndex()] = 1
+                curr = nearestNeighbour.get_robot_target_pos()
+
+        for ob in exploreList:
+            index_list.append(ob.getIndex())
+            print(f"{ob}")
+        return tuple(exploreList), index_list
+
+    def compute_simple_hamiltonian_path3(self) -> Tuple[Obstacle]:
+
+        # Generate all possible permutations for the image obstacles
+        perms = list(itertools.permutations(self.grid.obstacles))
+
+        index_list = []
+
+        # Get the path that has the least distance travelled.
+        def calc_path_cost(path):
+            # Create all target points, including the start.
+            targets = [self.robot.pos.xy_pygame()]
+            targets = [self.robot.pos.copy()]
+            for obstacle in path:
+                targets.append(obstacle.get_robot_target_pos())
+
+            dist = 0
+            cost = 0
+            for i in range(len(targets) - 1):
+                inital = ModifiedAStar(self.grid, self, targets[i], targets[i+1])
+                res = inital.start_astar()
+                if res is None:
+                    print(f"No path found from {targets[i]} to {targets[i+1]}")
+                    cost = sys.maxint # choose a large number, so that the algo won't enfavour this path
+                    break
+                else:
+                    cost += inital.getTotalCost()
+                current_target_x, current_target_y = targets[i].xy_pygame()
+                next_target_x, next_target_y = targets[i+1].xy_pygame()
+                dist += math.sqrt(((current_target_x - next_target_x) ** 2) +
+                                  ((current_target_y - next_target_y) ** 2))
+            return dist+cost
+
+        simple = min(perms, key=calc_path_cost)
+
+        print("Found a simple hamiltonian path:")
+        for ob in simple:
+            index_list.append(ob.getIndex())
+            print(f"{ob}")
+        return simple, index_list
+
 
     # def plan_bullseye(self):
     #     print("-" * 40)

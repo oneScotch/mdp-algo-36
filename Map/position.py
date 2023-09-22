@@ -26,10 +26,10 @@ class Position:
         Return the true x, y coordinates of the current Position.
         """
         return self.x, self.y
-    
+
     def descaled_xy(self):
-        x_descaled = self.x / 5
-        y_descaled = self.y / 5
+        x_descaled = self.x / SCALING_FACTOR
+        y_descaled = self.y / SCALING_FACTOR
         return x_descaled, y_descaled
 
     def xy_dir(self):

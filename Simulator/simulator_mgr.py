@@ -27,8 +27,8 @@ def parse_obstacle_data_cur(data) -> List[Obstacle]:
         lst.append(obj)
 
     for i in lst:
-        i["x"] = (GRID_CELL_LENGTH / 2 + GRID_CELL_LENGTH * i["x"])
-        i["y"] = (GRID_CELL_LENGTH / 2 + GRID_CELL_LENGTH * i["y"])
+        i["x"] = (GRID_CELL_LENGTH / 2 + GRID_CELL_LENGTH * i["x"]) / SCALING_FACTOR
+        i["y"] = (GRID_CELL_LENGTH / 2 + GRID_CELL_LENGTH * i["y"]) / SCALING_FACTOR
         i["obs_id"] -= 1
 
     a = [list(row) for row in zip(*[m.values() for m in lst])]
