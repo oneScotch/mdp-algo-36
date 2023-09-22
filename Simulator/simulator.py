@@ -13,7 +13,7 @@ from GUI.button import Button
 # Load button images
 start_img = pygame.image.load("Assets/start_btn.png").convert_alpha()
 exit_img = pygame.image.load("Assets/exit_btn.png").convert_alpha()
-reset_img = pygame.image.load("Assets/reset_btn.png").convert_alpha()
+#reset_img = pygame.image.load("Assets/reset_btn.png").convert_alpha()
 
 
 class AlgoApp(ABC):
@@ -23,7 +23,7 @@ class AlgoApp(ABC):
         
         self.start_button = Button(1000, 425, start_img, 1.05)
         self.exit_button = Button(1000, 910, exit_img, 1.2)
-        self.reset_button = Button(1000, 557, reset_img, 0.9)
+       # self.reset_button = Button(1000, 557, reset_img, 0.9)
 
     @abstractmethod
     def init(self):
@@ -58,7 +58,7 @@ class AlgoSimulator(AlgoApp):
 
         # Inform user that it is finding path...
         pygame.display.set_caption("Calculating path...")
-        font = pygame.font.SysFont("arial", 35)
+        font = pygame.font.SysFont("Helvetica", 35)
         text = font.render("Calculating path...", True, WHITE)
         text_rect = text.get_rect()
         text_rect.center = WINDOW_SIZE[0] / 2, WINDOW_SIZE[1] / 2
@@ -85,26 +85,26 @@ class AlgoSimulator(AlgoApp):
         self.screen.fill(DARK_BLACK, rect=rect_outer)
 
         rect_grid = pygame.Rect(0, 0, 1000, 1000)
-        self.screen.fill(WHITE, rect=rect_grid)
+        self.screen.fill(MINT, rect=rect_grid)
 
         # Title 1
-        font1 = pygame.font.SysFont("arial", 26)
-        text1 = font1.render("MDP Algorithm Simulator", True, WHITE)
+        font1 = pygame.font.SysFont("Helvetica", 26)
+        text1 = font1.render("Algorithm Simulator", True, WHITE)
         text_rect1 = text1.get_rect()
         text_rect1 = 1000, 10
         self.screen.blit(text1, text_rect1)
 
         # Label 1
-        font2 = pygame.font.SysFont("arial", 24)
-        text2 = font2.render("Image", True, GREEN)
+        font2 = pygame.font.SysFont("Helvetica", 24)
+        text2 = font2.render("Image", True, DARK_YELLOW)
         text_rect2 = text2.get_rect()
         text_rect2 = 1040, 60
         self.screen.blit(text2, text_rect2)
         rect_label = pygame.Rect(1010, 64, 20, 20)
-        self.screen.fill(GREEN, rect=rect_label)
+        self.screen.fill(DARK_YELLOW, rect=rect_label)
 
         # Label 2
-        font4 = pygame.font.SysFont("arial", 24)
+        font4 = pygame.font.SysFont("Helvetica", 24)
         text4 = font4.render("Virtual obstacle border", True, RED)
         text_rect4 = text4.get_rect()
         text_rect4 = 1040, 110
@@ -113,7 +113,7 @@ class AlgoSimulator(AlgoApp):
         self.screen.fill(RED, rect=rect_label2)
 
         # Label 3
-        font3 = pygame.font.SysFont("arial", 24)
+        font3 = pygame.font.SysFont("Helvetica", 24)
         text3 = font3.render("Forbidden", True, DARK_GREY)
         text_rect3 = text3.get_rect()
         text_rect3 = 1040, 160
@@ -122,7 +122,7 @@ class AlgoSimulator(AlgoApp):
         self.screen.fill(DARK_GREY, rect=rect_label3)
 
         # Label 4
-        font5 = pygame.font.SysFont("arial", 24)
+        font5 = pygame.font.SysFont("Helvetica", 24)
         text5 = font5.render("Allowed", True, WHITE)
         text_rect5 = text5.get_rect()
         text_rect5 = 1040, 210
@@ -144,8 +144,8 @@ class AlgoSimulator(AlgoApp):
         if self.exit_button.draw():
             self.running = False
 
-        if self.reset_button.draw():
-            pass
+       # if self.reset_button.draw():
+           # pass
 
         # Really render now.
         pygame.display.flip()

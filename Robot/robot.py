@@ -13,11 +13,11 @@ class Robot:
         # Note that we assume the robot starts always facing the top.
         # This value will never change, but it will not affect us as the robot uses a more fine-tuned internal
         # angle tracker.
-        self.pos = RobotPosition(ROBOT_START_X,
-                                 ROBOT_START_Y,
+        self.pos = RobotPosition(75,
+                                 20,
                                  Direction.TOP,
                                  90)
-
+                                 
         self._start_copy = self.pos.copy()
 
         self.brain = Brain(self, grid)
@@ -51,11 +51,11 @@ class Robot:
         print("Done!")
         print("-" * 70)
         return string_commands
-
+        
 
         # size = len(string_commands)
         # index_list = [index + 1 for index, value in enumerate(string_commands) if value.startswith("RPI")]
-        # final_list = [string_commands[i: j] for i, j in zip([0] + index_list, index_list + ([size]
+        # final_list = [string_commands[i: j] for i, j in zip([0] + index_list, index_list + ([size] 
         #              if index_list[-1] != size else []))]
         # print("Done!")
         # return final_list

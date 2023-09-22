@@ -23,7 +23,7 @@ def main(simulator):
                  "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"]
 
     # Create a client to send and receive information from the RPi
-   # client = Client("192.168.36.36", 3004)  # 10.27.146 139 | 192.168.13.1
+    #client = Client("192.168.36.36", 3004)  # 10.27.146 139 | 192.168.13.1
     #client.connect()
 
     while True:
