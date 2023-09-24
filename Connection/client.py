@@ -19,7 +19,7 @@ class Client:
         print("Connected to ALGO!")
 
     def send(self, d):
-        data = d.encode()
+        data = d.encode('utf-8')
         self.socket.send(data)
 
     def receive(self):
