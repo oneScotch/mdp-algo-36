@@ -36,9 +36,8 @@ class Server:
 
 if __name__ == '__main__':
     server = Server("192.168.36.37", 3004)
-    #server.close()
     server.start()
-    temp='nothing'
-    temp = server.receive()
-    print(temp)
+    test = "Connected to Algo"
+    server.send(test)
+    server.close()
    
