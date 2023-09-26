@@ -57,27 +57,27 @@ def bullseye():
                     print("Bullseye detected...")
                     print("Moving robot to left face of obstacle")
                     server.send("STM|BC010\n")
-                    server.receive()
+                    #server.receive()
                     server.send("STM|FL090\n")
-                    server.receive()
+                    #server.receive()
                     server.send("STM|FR090\n")
-                    server.receive()
+                    #server.receive()
                     server.send("STM|FC020\n")
-                    server.receive()
+                    #server.receive()
                     server.send("STM|BL090\n")
-                    server.receive()
+                    #server.receive()
                     server.send("STM|FR010\n")
-                    server.receive()
+                    #server.receive()
                     server.send("STM|FC030\n")
-                    server.receive()
+                    #server.receive()
                 elif image_id == "null\n" or image_id == "null":
                     server.send("STM|FC005\n")
                     server.receive()
                 else:
                     # If image is finally detected
                     complete = 1
-                    string_to_android = f"AND_IMAGE|Obstacle1,{image_id}"
-                    server.send(string_to_android)
+                    #string_to_android = f"AND_IMAGE|Obstacle1,{image_id}"
+                    #server.send(string_to_android)
                     break
 
         except KeyboardInterrupt:
