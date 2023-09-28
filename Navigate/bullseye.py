@@ -45,11 +45,11 @@ def bullseye():
         try:
             print("Begin moving forward")
             server.send("STM|FC005\n")
-            server.receive()
+            #server.receive()
 
             while complete == 0:
                 print("Scan")
-                server.send("RPI|")
+                #server.send("RPI|")
                 image_id = str(server.receive())
                 print(f"Current image id is {image_id}")
 
@@ -73,7 +73,7 @@ def bullseye():
                     complete =1
                 elif image_id == "null\n" or image_id == "null":
                     server.send("STM|FC005\n")
-                    server.receive()
+                    #server.receive()
                 else:
                     # If image is finally detected
                     complete = 1
