@@ -5,6 +5,7 @@ from Simulator.simulator import AlgoSimulator, AlgoMinimal
 from Simulator.simulator_mgr import parse_obstacle_data_cur
 from Connection.client import Client
 from Navigate.roam import roam
+from Connection.server import Server
 
 
 def main(simulator):
@@ -17,44 +18,47 @@ def main(simulator):
     forward = "STM|FC020"
     reverseSecond = "STM|BC010"
     forwardSecond = "STM|FC030"
-    obst_list = []
+    #obst_list = []
     image_ids = ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20", 
                  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
                  "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"]
+   
 
     # Create a client to send and receive information from the RPi
-    client = Client("192.168.36.36", 3004)  # 10.27.146 139 | 192.168.13.1
+    server = Server("192.168.36.25", 3004)  # 10.27.146 139 | 192.168.13.1
+    server.start() 
     #client.connect()
 
     while True:
         try:
             # ANDROID send obstacle positions to ALGO
-            #print("===========================Receive Obstacles Data===========================")
-            #print("Waiting to receive obstacle data from ANDROID...")
-            #obstacle_data = client.receive()
-            #data2 = json.loads(obstacle_data)
-            #obst_list.append(data2)
-
-            #while obstacle_data != "PC;START":
-                #obstacle_data = client.receive()
-               # if obstacle_data == "PC;START":
-                  #  break
-                #data = json.loads(obstacle_data)
-                #print(data)
-                #obst_list.append(data)
-                #i+=1
+            print("===========================Receive Obstacles Data===========================")
+            print("Waiting to receive obstacle data from ANDROID...")
+            obstacle_data = server.receive()
+            obst_list = json.loads(obstacle_data)
             
-            #obst_list.pop()
-            #print("Received all obstacles data from ANDROID.")
+            
+
+
+           # while obstacle_data != "PC;START":
+            #    obstacle_data = server.receive()
+             #   if obstacle_data == "PC;START":
+              #      break
+              #  data = json.loads(obstacle_data)
+              #  print(data)
+             #   obst_list.append(data)
+              #  i+=1
+            
+           # obst_list.pop()
+            print("Received all obstacles data from ANDROID.")
             #print(f"Obstacles data: {obst_list}")
 
-            print("============================Parse Obstacles Data============================")
-            obst_list = [{"x":1,"y":18,"direction":-90,"obs_id":0}, 
-                 {"x":6,"y":12,"direction":90,"obs_id":1},
-                 {"x":10,"y":7,"direction":0,"obs_id":2}, 
-                 {"x":15,"y":16,"direction":180,"obs_id":3}, 
-                 {"x":19,"y":9,"direction":180,"obs_id":4},
-                 {"x":13,"y":2,"direction":0,"obs_id":5}]
+          #  print("============================Parse Obstacles Data============================")
+           # obst_list = [{"x":1,"y":18,"direction":-90,"obs_id":0}, 
+            #   {"x":6,"y":12,"direction":90,"obs_id":1},
+             #  {"x":15,"y":16,"direction":180,"obs_id":3}, 
+              # {"x":19,"y":9,"direction":180,"obs_id":4},
+               #  {"x":13,"y":2,"direction":0,"obs_id":5}]
 
             obstacles = parse_obstacle_data_cur(obst_list)
             print(f"After parsing: {obstacles}")
@@ -75,85 +79,39 @@ def main(simulator):
                 "y": 4,
                 "direction" : "N"
             }
+            s = "AND|"
+            print("INDEX LIST")
+            for y in range(len(index_list)):
+                index_list[y]+=1
+                s+=str(index_list[y])
             
+
+            #print(s)
+            #server.send(s)
+            #time.sleep(1)
             print("=======================Send path commands to move to obstacles=======================")
             for command in commands:
                 print(f"Sending path commands to move to obstacle {index_list[index]} to RPI to STM...")
                 print(command)
-                client.send(command)
-                if(command != "RPI|"):
-                    updateRoboPos(roboPosCoor, command)
-                    roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
-                    client.send(roboUpdateToAndroid)
+                server.send(command)
+                time.sleep(1)
+                #if(command != "RPI|"):
+                    #updateRoboPos(roboPosCoor, command)
+                   # roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
+                    #print("--------")
+                    #print(roboUpdateToAndroid)
+                    #server.send(roboUpdateToAndroid)
+                    #time.sleep(1)
 
     
-                print("Waiting to receive aknowledgement/image_id from STM/IMAGE REC")
-                var = client.receive()
-                print(var)
-                if var == "CMPLT":
-                    continue
-                elif var == "n":
-                    print("No image detected. Sending command to reverse...")
-                    client.send(reverse)
-                    updateRoboPos(roboPosCoor, reverse)
-                    roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
-                    client.send(roboUpdateToAndroid)
-                    print("Waiting to receive aknowledgement for reverse")
-                    client.receive()
-                    client.send(scan)
-                    print("Waiting to receive image_id from IMAGE REC")
-                    var = client.receive()
-                    if var.strip() in image_ids:
-                        print(f"Received image id. Sending image id to ANDROID")
-                        var2 = var.strip()
-                        string_to_android = f"AND_IMAGE|TARGET,<{index_list[index]+1}>,<{var2}>"
-                        client.send(string_to_android)
-                        time.sleep(0.5)
-                        index += 1
-                        print("Moving robot forward to original position...")
-                        client.send(forward)
-                        updateRoboPos(roboPosCoor, forward)
-                        roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
-                        client.send(roboUpdateToAndroid)
-                        print("Waiting to receive aknowledgement")
-                        client.receive()
-                    elif var == "n":
-                        print("No image detected. Sending command to reverse more...")
-                        client.send(reverseSecond)
-                        updateRoboPos(roboPosCoor, reverseSecond)
-                        roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
-                        client.send(roboUpdateToAndroid)
-                        print("Waiting to receive aknowledgement for reverse")
-                        client.receive()
-                        client.send(scan)
-                        print("Waiting to receive image_id from IMAGE REC")
-                        var = client.receive()
-                        if var.strip() in image_ids:
-                            print(f"Received image id. Sending image id to ANDROID")
-                            var2 = var.strip()
-                            string_to_android = f"AND_IMAGE|TARGET,<{index_list[index]+1}>,<{var2}>"
-                            client.send(string_to_android)
-                            time.sleep(0.5)
-                            index += 1
-                            print("Moving robot forward to original position...")
-                            client.send(forwardSecond)
-                            updateRoboPos(roboPosCoor, forwardSecond)
-                            roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
-                            client.send(roboUpdateToAndroid)
-                            print("Waiting to receive aknowledgement")
-                            client.receive()
-                elif var.strip() in image_ids:
-                    print(f"Received image id. Sending image id to ANDROID")
-                    var2 = var.strip()
-                    string_to_android = f"AND_IMAGE|TARGET,<{index_list[index]+1}>,<{var2}>"
-                    client.send(string_to_android)
-                    time.sleep(0.5)
-                    index += 1
-                else:
-                    break
+                #print("Waiting to receive aknowledgement/image_id from STM/IMAGE REC")
+                #var = server.receive()
+                #var ="ACK"
+                #print(var)
+
                 
         except KeyboardInterrupt:
-            client.close()
+            server.close()
 
 def updateRoboPos(roboPos,command):
     stmCommand = command[4:]
@@ -264,6 +222,5 @@ def updateRoboPos(roboPos,command):
     else:
         pass
 
-
 if __name__ == '__main__':
-    main(True)
+    main(False)
