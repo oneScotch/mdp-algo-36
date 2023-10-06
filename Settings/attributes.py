@@ -3,10 +3,10 @@ from Settings.config import *
 
 # Robot Attributes
 ROBOT_LENGTH = 20 * SCALING_FACTOR  # Recommended robot footprint is 30cm by 30cm
-ROBOT_TURN_RADIUS = 30 * SCALING_FACTOR
+ROBOT_TURN_RADIUS = 40 * SCALING_FACTOR
 ROBOT_SPEED_PER_SECOND = 30 * SCALING_FACTOR
 ROBOT_S_FACTOR = ROBOT_LENGTH / ROBOT_TURN_RADIUS  
-ROBOT_SAFETY_DISTANCE = 15 * SCALING_FACTOR
+ROBOT_SAFETY_DISTANCE = 15* SCALING_FACTOR
 ROBOT_SCAN_TIME = 0.25  # Time provided for scanning an obstacle image in seconds.
 
 # Grid Attributes

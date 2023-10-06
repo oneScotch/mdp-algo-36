@@ -62,8 +62,7 @@ class ScanCommand(Command):
     def convert_to_message(self):
         # Just return a string of s's
         # return f"S{self.obj_index:01}"
-        return "RPI|"
-
+        return "STM|RPI"
 
 class StraightCommand(Command):
     def __init__(self, dist):
