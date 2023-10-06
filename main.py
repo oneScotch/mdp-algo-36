@@ -27,7 +27,7 @@ def main(simulator):
 
     # Create a client to send and receive information from the RPi
     server = Server("192.168.36.25", 3004)  # 10.27.146 139 | 192.168.13.1
-    server.start() 
+    #server.start() 
     #client.connect()
 
     while True:
@@ -35,9 +35,9 @@ def main(simulator):
             # ANDROID send obstacle positions to ALGO
             print("===========================Receive Obstacles Data===========================")
             print("Waiting to receive obstacle data from ANDROID...")
-            obstacle_data = server.receive()
-            obst_list = json.loads(obstacle_data)
-            print(obst_list)
+            #obstacle_data = server.receive()
+           # obst_list = json.loads(obstacle_data)
+           # print(obst_list)
             
             
 
@@ -56,7 +56,7 @@ def main(simulator):
             #print(f"Obstacles data: {obst_list}")
 
             print("============================Parse Obstacles Data============================")
-           # obst_list = [{"x":5,"y":10,"direction":-0,"obs_id":0}]
+            obst_list = [{"x":5,"y":10,"direction":0,"obs_id":0}]
            # [{"x":1,"y":18,"direction":-90,"obs_id":0}, 
             #   {"x":6,"y":12,"direction":90,"obs_id":1},
              #  {"x":15,"y":16,"direction":180,"obs_id":3}, 
@@ -71,12 +71,15 @@ def main(simulator):
                 app = AlgoSimulator(obstacles)
                 app.init()
                 app.execute()
+                commands = app.robot.convert_commands()
+                print("Full list of paths commands till last obstacle:")
+                print(f"{commands}")
             else:
                 app = AlgoMinimal(obstacles)
                 index_list = app.execute()
-            commands = app.robot.convert_commands()
-            print("Full list of paths commands till last obstacle:")
-            print(f"{commands}")
+            #commands = app.robot.convert_commands()
+            #print("Full list of paths commands till last obstacle:")
+            #print(f"{commands}")
             roboPosCoor = {
                 "x": 15,
                 "y": 4,
@@ -96,15 +99,17 @@ def main(simulator):
             #server.send(s)
             #time.sleep(1)
             print("=======================Send path commands to move to obstacles=======================")
+            cd=0
+            server.send("STM|FC000")
+            time.sleep(2)
             for command in commands:
-                cd=0
                 print(f"Sending path commands to move to obstacle {index_list[index]} to RPI to STM...")
                 if (command == "STM|FR090" or command == "STM|FL090" or command == "STM|BR090" or command == "STM|BL090"):
-                    command = command[:8] + '50'
-                    commands.insert(cd+1,"STM|FC040")
+                    command = command[:7] + '50'
+                    #commands.insert(cd+1,"STM|FC010")
                 print(command)
                 server.send(command)
-                time.sleep(1)
+                time.sleep(2)
                 #if(command != "RPI|"):
                     #updateRoboPos(roboPosCoor, command)
                    # roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
@@ -248,4 +253,4 @@ def updateRoboPos(roboPos,command):
         pass
 
 if __name__ == '__main__':
-    main(False)
+    main(True)
