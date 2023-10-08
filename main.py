@@ -77,6 +77,11 @@ def main(simulator):
             else:
                 app = AlgoMinimal(obstacles)
                 index_list = app.execute()
+                print("============================INDEX LIST===================================")
+                #Adding 1 to obstacle id for it to match android
+                for x in range(len(index_list)):
+                    index_list[x]+=1
+                print(index_list)
             commands = app.robot.convert_commands()
             print("Full list of paths commands till last obstacle:")
             print(f"{commands}")
@@ -86,12 +91,7 @@ def main(simulator):
                 "direction" : "N"
             }
 
-            print("INDEX LIST")
-
-            #Adding 1 to obstacle id for it to match android
-            for x in range(len(index_list)):
-                index_list[x]+=1
-            print(index_list)
+            
         
             # 5,4,3,2,1,0
 
