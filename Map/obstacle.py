@@ -39,8 +39,8 @@ class Obstacle:
         """
         Checks whether a given x-y coordinate is within the safety boundary of this obstacle.
         """
-        if ((self.pos.x - (OBSTACLE_SAFETY_WIDTH - 20)) < x < (self.pos.x + OBSTACLE_SAFETY_WIDTH)) and \
-            ((self.pos.y - (OBSTACLE_SAFETY_WIDTH - 20)) < y < (self.pos.y + OBSTACLE_SAFETY_WIDTH)):
+        if ((self.pos.x - OBSTACLE_SAFETY_WIDTH) <= x <= (self.pos.x + OBSTACLE_SAFETY_WIDTH)) and \
+            ((self.pos.y - OBSTACLE_SAFETY_WIDTH) <= y <= (self.pos.y + OBSTACLE_SAFETY_WIDTH)):
             return True
         return False
 
@@ -50,9 +50,9 @@ class Obstacle:
 
         Useful for checking if a point is within the boundary of this obstacle.
         """
-        upper = self.pos.y + OBSTACLE_SAFETY_WIDTH 
-        lower = self.pos.y - OBSTACLE_SAFETY_WIDTH 
-        left = self.pos.x - OBSTACLE_SAFETY_WIDTH 
+        upper = self.pos.y + OBSTACLE_SAFETY_WIDTH
+        lower = self.pos.y - OBSTACLE_SAFETY_WIDTH
+        left = self.pos.x - OBSTACLE_SAFETY_WIDTH
         right = self.pos.x + OBSTACLE_SAFETY_WIDTH
 
         return [
@@ -75,13 +75,13 @@ class Obstacle:
         The object will also store the angle that the robot should face.
         """
         if self.pos.direction == Direction.TOP:
-            return RobotPosition(self.pos.x, self.pos.y + OBSTACLE_SAFETY_WIDTH + OBSTACLE_LENGTH + 50, Direction.BOTTOM)
+            return RobotPosition(self.pos.x, self.pos.y + OBSTACLE_SAFETY_WIDTH  + ROBOT_LENGTH / 2, Direction.BOTTOM)
         elif self.pos.direction == Direction.BOTTOM:
-            return RobotPosition(self.pos.x, self.pos.y - OBSTACLE_SAFETY_WIDTH - OBSTACLE_LENGTH - 50, Direction.TOP)
+            return RobotPosition(self.pos.x, self.pos.y - OBSTACLE_SAFETY_WIDTH  - ROBOT_LENGTH / 2, Direction.TOP)
         elif self.pos.direction == Direction.LEFT:
-            return RobotPosition(self.pos.x - OBSTACLE_SAFETY_WIDTH - OBSTACLE_LENGTH - 50, self.pos.y, Direction.RIGHT)
+            return RobotPosition(self.pos.x - OBSTACLE_SAFETY_WIDTH  - ROBOT_LENGTH / 2, self.pos.y, Direction.RIGHT)
         else:
-            return RobotPosition(self.pos.x + OBSTACLE_SAFETY_WIDTH + OBSTACLE_LENGTH + 50, self.pos.y, Direction.LEFT)
+            return RobotPosition(self.pos.x + OBSTACLE_SAFETY_WIDTH  + ROBOT_LENGTH / 2, self.pos.y, Direction.LEFT)
 
     def draw_self(self, screen):
         # Draw the obstacle onto the grid.
