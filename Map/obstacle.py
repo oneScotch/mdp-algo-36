@@ -75,13 +75,13 @@ class Obstacle:
         The object will also store the angle that the robot should face.
         """
         if self.pos.direction == Direction.TOP:
-            return RobotPosition(self.pos.x, self.pos.y + OBSTACLE_SAFETY_WIDTH  + ROBOT_LENGTH / 2, Direction.BOTTOM)
+            return RobotPosition(self.pos.x, self.pos.y + OBSTACLE_SAFETY_WIDTH  + ROBOT_LENGTH, Direction.BOTTOM)
         elif self.pos.direction == Direction.BOTTOM:
-            return RobotPosition(self.pos.x, self.pos.y - OBSTACLE_SAFETY_WIDTH  - ROBOT_LENGTH / 2, Direction.TOP)
+            return RobotPosition(self.pos.x, self.pos.y - OBSTACLE_SAFETY_WIDTH  - ROBOT_LENGTH, Direction.TOP)
         elif self.pos.direction == Direction.LEFT:
-            return RobotPosition(self.pos.x - OBSTACLE_SAFETY_WIDTH  - ROBOT_LENGTH / 2, self.pos.y, Direction.RIGHT)
+            return RobotPosition(self.pos.x - OBSTACLE_SAFETY_WIDTH  - ROBOT_LENGTH, self.pos.y, Direction.RIGHT)
         else:
-            return RobotPosition(self.pos.x + OBSTACLE_SAFETY_WIDTH  + ROBOT_LENGTH / 2, self.pos.y, Direction.LEFT)
+            return RobotPosition(self.pos.x + OBSTACLE_SAFETY_WIDTH  + ROBOT_LENGTH, self.pos.y, Direction.LEFT)
 
     def draw_self(self, screen):
         # Draw the obstacle onto the grid.
