@@ -27,7 +27,7 @@ def main(simulator):
 
     # Create a client to send and receive information from the RPi
     server = Server("192.168.36.25", 3004)  # 10.27.146 139 | 192.168.13.1
-    server.start() 
+    #server.start() 
     #client.connect()
 
     while True:
@@ -35,9 +35,9 @@ def main(simulator):
             # ANDROID send obstacle positions to ALGO
             print("===========================Receive Obstacles Data===========================")
             print("Waiting to receive obstacle data from ANDROID...")
-            obstacle_data = server.receive()
-            obst_list = json.loads(obstacle_data)
-            print(obst_list)
+            # obstacle_data = server.receive()
+            # obst_list = json.loads(obstacle_data)
+            # print(obst_list)
             
             
 
@@ -53,10 +53,11 @@ def main(simulator):
             
            # obst_list.pop()
             print("Received all obstacles data from ANDROID.")
-            print(f"Obstacles data: {obst_list}")
+            # print(f"Obstacles data: {obst_list}")
 
             print("============================Parse Obstacles Data============================")
-            #obst_list = [{"x":5,"y":10,"direction":0,"obs_id":0}]
+            obst_list = [{"x":10,"y":5,"direction":-90,"obs_id":0}]
+                         #{"x":15,"y":13,"direction":0,"obs_id":1}]
            # [{"x":1,"y":18,"direction":-90,"obs_id":0}, 
             #   {"x":6,"y":12,"direction":90,"obs_id":1},
              #  {"x":15,"y":16,"direction":180,"obs_id":3}, 
@@ -245,4 +246,4 @@ def updateRoboPos(roboPos,command):
         pass
 
 if __name__ == '__main__':
-    main(False)
+    main(True)
