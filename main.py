@@ -30,17 +30,17 @@ def main(simulator):
 
     # Create a client to send and receive information from the RPi
     server = Server("192.168.36.25", 3004)  # 10.27.146 139 | 192.168.13.1
-    server.start() 
+    #server.start() 
     #client.connect()
 
     while True:
         try:
             # ANDROID send obstacle positions to ALGO
             print("===========================Receive Obstacles Data===========================")
-            print("Waiting to receive obstacle data from ANDROID...")
-            obstacle_data = server.receive()
-            obst_list = json.loads(obstacle_data)
-            print(obst_list)
+            # print("Waiting to receive obstacle data from ANDROID...")
+            # obstacle_data = server.receive()
+            # obst_list = json.loads(obstacle_data)
+            # print(obst_list)
             
             
 
@@ -56,15 +56,15 @@ def main(simulator):
             
            # obst_list.pop()
             print("Received all obstacles data from ANDROID.")
-            print(f"Obstacles data: {obst_list}")
+            # print(f"Obstacles data: {obst_list}")
 
             print("============================Parse Obstacles Data============================")
-            # obst_list =[{"x":1,"y":18,"direction":-90,"obs_id":0}, 
-            #   {"x":6,"y":12,"direction":90,"obs_id":1},
-            #   {"x":14,"y":16,"direction":180,"obs_id":3}, 
-            #   {"x":10,"y":6,"direction":0,"obs_id":4},
-            #   {"x":13,"y":2,"direction":0,"obs_id":4},
-            #   {"x":18,"y":19,"direction":180,"obs_id":5}]
+            obst_list =[{"x":1,"y":18,"direction":-90,"obs_id":0}, 
+              {"x":6,"y":12,"direction":90,"obs_id":1},
+              {"x":14,"y":16,"direction":180,"obs_id":2}, 
+              {"x":10,"y":6,"direction":0,"obs_id":3},
+              {"x":13,"y":2,"direction":0,"obs_id":4},
+              {"x":18,"y":9,"direction":180,"obs_id":5}]
         # [{"x":5,"y":10,"direction":0,"obs_id":0},{"x":5,"y":10,"direction":0,"obs_id":0}]
 
                
@@ -91,9 +91,7 @@ def main(simulator):
             commands = app.robot.convert_commands()
             print("Full list of paths commands till last obstacle:")
             print(f"{commands}")
-            ind = "STM|"
-            ind+=str(index)
-            server.send(index_list)
+           
 
             
         
@@ -274,4 +272,4 @@ def updateRoboPos(roboPos,command):
         pass
 
 if __name__ == '__main__':
-    main(False)
+    main(True)
