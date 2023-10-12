@@ -53,7 +53,7 @@ class AlgoSimulator(AlgoApp):
         pygame.init()
         self.running = True
 
-        self.screen = pygame.display.set_mode(self.size, pygame.FULLSCREEN)  # pygame.HWSURFACE | pygame.DOUBLEBUF pygame.RESIZABLE
+        self.screen = pygame.display.set_mode(self.size, pygame.RESIZABLE)  # pygame.HWSURFACE | pygame.DOUBLEBUF pygame.RESIZABLE
         self.clock = pygame.time.Clock()
 
         # Inform user that it is finding path...

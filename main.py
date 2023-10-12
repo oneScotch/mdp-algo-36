@@ -19,14 +19,14 @@ def main(simulator):
     forward = "STM|FC020"
     reverseSecond = "STM|BC010"
     forwardSecond = "STM|FC030"
-    #obst_list = []
+    #obst_list = [{'x': 10, 'y': 5, 'direction': 0, 'obs_id': 0}, {'x': 15, 'y': 13, 'direction': -90, 'obs_id': 1}]
     image_ids = ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20", 
                  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
                  "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"]
    
 
     # Create a client to send and receive information from the RPi
-    server = Server("192.168.36.25", 3004)  # 10.27.146 139 | 192.168.13.1
+    server = Server("192.168.36.15", 3004)  # 10.27.146 139 | 192.168.13.1
     server.start() 
     #client.connect()
 
@@ -42,14 +42,14 @@ def main(simulator):
             
 
 
-           # while obstacle_data != "PC;START":
-            #    obstacle_data = server.receive()
-             #   if obstacle_data == "PC;START":
-              #      break
-              #  data = json.loads(obstacle_data)
-              #  print(data)
-             #   obst_list.append(data)
-              #  i+=1
+            # while obstacle_data != "PC;START":
+            #     obstacle_data = server.receive()
+            #     if obstacle_data == "PC;START":
+            #         break
+            #     data = json.loads(obstacle_data)
+            #     print(data)
+            #     obst_list.append(data)
+            #     i+=1
             
            # obst_list.pop()
             print("Received all obstacles data from ANDROID.")
@@ -99,14 +99,12 @@ def main(simulator):
             print("=======================Send path commands to move to obstacles=======================")
             cd=0
             server.send("STM|FC000")
-            time.sleep(2)
+            time.sleep(3)
             for command in commands:
                 print(f"Sending path commands to move to obstacle {index_list[index]} to RPI to STM...")
-                if (command == "STM|FR090" or command == "STM|FL090" or command == "STM|BR090" or command == "STM|BL090"):
-                    command = command[:7] + '50'
                 print(command)
                 server.send(command)
-                time.sleep(2)
+                time.sleep(8)
                 #if(command != "RPI|"):
                     #updateRoboPos(roboPosCoor, command)
                    # roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
@@ -123,9 +121,9 @@ def main(simulator):
                     #index+=1
                     if var in image_ids:
                         s = "AND|TARGET,"
-                        s+= var
-                        s+=","
                         s+=str(index_list[index])
+                        s+=","
+                        s+= var
                         index+=1
                         server.send(s)
                         time.sleep(5)

@@ -158,33 +158,29 @@ class TurnCommand(Command):
 
         Note that ∆θ is in radians.
         """
-        assert isinstance(curr_pos, RobotPosition), print("Cannot apply turn command on non-robot positions!")
+        #assert isinstance(curr_pos, RobotPosition), print("Cannot apply turn command on non-robot positions!")
 
-        # Get change in (x, y) coordinate.
-        if curr_pos.direction == Direction.RIGHT or curr_pos.direction == Direction.LEFT:
-            if not self.rev:
-                ROBOT_TURN_RADIUS_X = ROBOT_TURN_RADIUS
-                ROBOT_TURN_RADIUS_Y = ROBOT_TURN_RADIUS_DRIFT
-            else:
-                ROBOT_TURN_RADIUS_X = ROBOT_TURN_RADIUS_DRIFT
-                ROBOT_TURN_RADIUS_Y = ROBOT_TURN_RADIUS
-        else:
-            if not self.rev:
-                ROBOT_TURN_RADIUS_X = ROBOT_TURN_RADIUS_DRIFT
-                ROBOT_TURN_RADIUS_Y = ROBOT_TURN_RADIUS
-            else:
-                ROBOT_TURN_RADIUS_X = ROBOT_TURN_RADIUS
-                ROBOT_TURN_RADIUS_Y = ROBOT_TURN_RADIUS_DRIFT
+        if (self.angle < 0 and 45 < curr_pos.angle <= 90 and not self.rev) or \
+            (self.angle < 0 and 45 < curr_pos.angle <= 90 and self.rev) or \
+            (self.angle < 0 and -45 < curr_pos.angle <= 45 and not self.rev) or \
+            (self.angle < 0 and -45 < curr_pos.angle <= 45 and self.rev) or \
+            (self.angle > 0 and curr_pos.angle <= -125 and self.rev) or \
+            (self.angle < 0 and curr_pos.angle <= -125 and self.rev) or \
+            (self.angle > 0 and -45 < curr_pos.angle <= 45 and self.rev) or \
+            (self.angle > 0 and 45 < curr_pos.angle <= 90 and not self.rev) : 
 
-        x_change = ROBOT_TURN_RADIUS_X * (math.sin(math.radians(curr_pos.angle + self.angle)) -
+                x = 50
+                y = 0
+
+        else : 
+            x = 0
+            y = 50
+        
+
+        x_change = (ROBOT_TURN_RADIUS+x) * (math.sin(math.radians(curr_pos.angle + self.angle)) -
                                                 math.sin(math.radians(curr_pos.angle)))
-        y_change = ROBOT_TURN_RADIUS_Y * (math.cos(math.radians(curr_pos.angle + self.angle)) -
+        y_change = (ROBOT_TURN_RADIUS+y) * (math.cos(math.radians(curr_pos.angle + self.angle)) -
                                                 math.cos(math.radians(curr_pos.angle)))
-
-        # x_change = ROBOT_TURN_RADIUS * (math.sin(math.radians(curr_pos.angle + self.angle)) -
-        #                                         math.sin(math.radians(curr_pos.angle)))
-        # y_change = ROBOT_TURN_RADIUS * (math.cos(math.radians(curr_pos.angle + self.angle)) -
-        #                                         math.cos(math.radians(curr_pos.angle)))
         if self.angle < 0 and not self.rev:  # Wheels to right moving forward.
             curr_pos.x -= x_change
             curr_pos.y += y_change
