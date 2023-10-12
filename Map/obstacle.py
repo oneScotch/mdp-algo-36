@@ -39,8 +39,8 @@ class Obstacle:
         """
         Checks whether a given x-y coordinate is within the safety boundary of this obstacle.
         """
-        if ((self.pos.x - OBSTACLE_SAFETY_WIDTH) <= x <= (self.pos.x + OBSTACLE_SAFETY_WIDTH)) and \
-            ((self.pos.y - OBSTACLE_SAFETY_WIDTH) <= y <= (self.pos.y + OBSTACLE_SAFETY_WIDTH)):
+        if ((self.pos.x - (OBSTACLE_SAFETY_WIDTH - 20)) < x < (self.pos.x + (OBSTACLE_SAFETY_WIDTH - 20))) and \
+            ((self.pos.y - (OBSTACLE_SAFETY_WIDTH - 20)) < y < (self.pos.y + (OBSTACLE_SAFETY_WIDTH - 20))):
             return True
         return False
 
@@ -74,6 +74,7 @@ class Obstacle:
 
         The object will also store the angle that the robot should face.
         """
+
         if self.pos.direction == Direction.TOP:
             return RobotPosition(self.pos.x, self.pos.y + OBSTACLE_SAFETY_WIDTH  + ROBOT_LENGTH, Direction.BOTTOM)
         elif self.pos.direction == Direction.BOTTOM:
