@@ -39,8 +39,10 @@ class Obstacle:
         """
         Checks whether a given x-y coordinate is within the safety boundary of this obstacle.
         """
-        if ((self.pos.x - (OBSTACLE_SAFETY_WIDTH - 20)) < x < (self.pos.x + (OBSTACLE_SAFETY_WIDTH - 20))) and \
-            ((self.pos.y - (OBSTACLE_SAFETY_WIDTH - 20)) < y < (self.pos.y + (OBSTACLE_SAFETY_WIDTH - 20))):
+        if ((self.pos.x - (OBSTACLE_SAFETY_WIDTH)) < x < (self.pos.x + (OBSTACLE_SAFETY_WIDTH))) and \
+            ((self.pos.y - (OBSTACLE_SAFETY_WIDTH)) < y < (self.pos.y + (OBSTACLE_SAFETY_WIDTH))):
+        # if ((self.pos.x - (OBSTACLE_SAFETY_WIDTH - 20)) < x < (self.pos.x + (OBSTACLE_SAFETY_WIDTH - 20))) and \
+        #     ((self.pos.y - (OBSTACLE_SAFETY_WIDTH - 20)) < y < (self.pos.y + (OBSTACLE_SAFETY_WIDTH - 20))):
             return True
         return False
 

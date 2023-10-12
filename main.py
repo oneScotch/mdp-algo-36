@@ -11,12 +11,15 @@ from Connection.server import Server
 def main(simulator):
     """ simulator: Pass in True to show simulator screen
     """
+
+
     index = 0
+    t=3
     
     i = 0
-    reverse = "STM|BC020"
-    scan = "RPI|"
-    forward = "STM|FC020"
+    reverse = "STM|BC010"
+    scan = "STM|RPI"
+    forward = "STM|FC010"
     reverseSecond = "STM|BC010"
     forwardSecond = "STM|FC030"
     #obst_list = []
@@ -56,12 +59,15 @@ def main(simulator):
             print(f"Obstacles data: {obst_list}")
 
             print("============================Parse Obstacles Data============================")
-            obst_list = [{"x":5,"y":10,"direction":0,"obs_id":0}]
-           # [{"x":1,"y":18,"direction":-90,"obs_id":0}, 
+            # obst_list =[{"x":1,"y":18,"direction":-90,"obs_id":0}, 
             #   {"x":6,"y":12,"direction":90,"obs_id":1},
-             #  {"x":15,"y":16,"direction":180,"obs_id":3}, 
-              # {"x":19,"y":9,"direction":180,"obs_id":4},
-               #  {"x":13,"y":2,"direction":0,"obs_id":5}]
+            #   {"x":14,"y":16,"direction":180,"obs_id":3}, 
+            #   {"x":10,"y":6,"direction":0,"obs_id":4},
+            #   {"x":13,"y":2,"direction":0,"obs_id":4},
+            #   {"x":18,"y":19,"direction":180,"obs_id":5}]
+        # [{"x":5,"y":10,"direction":0,"obs_id":0},{"x":5,"y":10,"direction":0,"obs_id":0}]
+
+               
 
             obstacles = parse_obstacle_data_cur(obst_list)
             print(f"After parsing: {obstacles}")
@@ -85,11 +91,9 @@ def main(simulator):
             commands = app.robot.convert_commands()
             print("Full list of paths commands till last obstacle:")
             print(f"{commands}")
-            roboPosCoor = {
-                "x": 15,
-                "y": 4,
-                "direction" : "N"
-            }
+            ind = "STM|"
+            ind+=str(index)
+            server.send(index_list)
 
             
         
@@ -97,14 +101,23 @@ def main(simulator):
 
             
             print("=======================Send path commands to move to obstacles=======================")
-            cd=0
             server.send("STM|FC000")
-            time.sleep(3)
-            for command in commands:
+            time.sleep(0.5*t)
+            clen =len(commands)
+            for x ,command in enumerate(commands):
                 print(f"Sending path commands to move to obstacle {index_list[index]} to RPI to STM...")
                 print(command)
                 server.send(command)
-                time.sleep(3)
+                if (x<clen-1):
+                    if(commands[x+1]== 'STM|BR090' or commands[x+1]== 'STM|BL090'or commands[x+1]== 'STM|FL090' or commands[x+1]== 'STM|FR090'):
+                        time.sleep(1.5*t)
+                    elif (commands[x+1]== 'STM|RPI'):
+                        time.sleep(2*t)
+                    else:
+                        time.sleep(t)
+                else:
+                    time.sleep(t)
+                
                 #if(command != "RPI|"):
                     #updateRoboPos(roboPosCoor, command)
                    # roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
@@ -115,10 +128,7 @@ def main(simulator):
 
                 if command == "STM|RPI":
                     print("Waiting to receive image_id from STM/IMAGE REC")
-                    #var = "21"
                     var = server.receive()
-                    #image[index] = var
-                    #index+=1
                     if var in image_ids:
                         s = "AND|TARGET,"
                         s+=str(index_list[index])
@@ -127,9 +137,29 @@ def main(simulator):
                         index+=1
                         print(s)
                         server.send(s)
-                        time.sleep(5)
-
-                cd+=1
+                    else:
+                        print("Moving backwards")
+                        server.send(reverse)
+                        print(reverse)
+                        time.sleep(t)
+                        server.send(scan)
+                        print(scan)
+                        print("Waiting to receive image_id from STM/IMAGE REC")
+                        var = server.receive()
+                    
+                        if var in image_ids:
+                            s = "AND|TARGET,"
+                            s+=str(index_list[index])
+                            s+=","
+                            s+=var
+                            index+=1
+                            print(s)
+                            server.send(s)
+                        print("Moving Forward to offset")
+                        server.send(forward)
+                        time.sleep(t)
+                       
+                       
 
         except KeyboardInterrupt:
             server.close()
