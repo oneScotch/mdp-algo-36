@@ -91,9 +91,6 @@ def main(simulator):
             commands = app.robot.convert_commands()
             print("Full list of paths commands till last obstacle:")
             print(f"{commands}")
-            ind = "STM|"
-            ind+=str(index)
-            server.send(index_list)
 
             
         
