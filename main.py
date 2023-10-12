@@ -56,7 +56,7 @@ def main(simulator):
             print(f"Obstacles data: {obst_list}")
 
             print("============================Parse Obstacles Data============================")
-            #obst_list = [{"x":5,"y":10,"direction":0,"obs_id":0}]
+            obst_list = [{"x":5,"y":10,"direction":0,"obs_id":0}]
            # [{"x":1,"y":18,"direction":-90,"obs_id":0}, 
             #   {"x":6,"y":12,"direction":90,"obs_id":1},
              #  {"x":15,"y":16,"direction":180,"obs_id":3}, 
@@ -99,14 +99,12 @@ def main(simulator):
             print("=======================Send path commands to move to obstacles=======================")
             cd=0
             server.send("STM|FC000")
-            time.sleep(2)
+            time.sleep(3)
             for command in commands:
                 print(f"Sending path commands to move to obstacle {index_list[index]} to RPI to STM...")
-                if (command == "STM|FR090" or command == "STM|FL090" or command == "STM|BR090" or command == "STM|BL090"):
-                    command = command[:7] + '50'
                 print(command)
                 server.send(command)
-                time.sleep(2)
+                time.sleep(3)
                 #if(command != "RPI|"):
                     #updateRoboPos(roboPosCoor, command)
                    # roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
@@ -123,10 +121,11 @@ def main(simulator):
                     #index+=1
                     if var in image_ids:
                         s = "AND|TARGET,"
-                        s+= var
-                        s+=","
                         s+=str(index_list[index])
+                        s+=","
+                        s+=var
                         index+=1
+                        print(s)
                         server.send(s)
                         time.sleep(5)
 
