@@ -99,22 +99,23 @@ def main(simulator):
             
             print("=======================Send path commands to move to obstacles=======================")
             server.send("STM|FC000")
-            time.sleep(0.5*t)
+            time.sleep(t)
             clen =len(commands)
             for x ,command in enumerate(commands):
                 print(f"Sending path commands to move to obstacle {index_list[index]} to RPI to STM...")
-                print(command)
-                server.send(command)
+                
                 if (x<clen-1):
-                    if(commands[x+1]== 'STM|BR090' or commands[x+1]== 'STM|BL090'or commands[x+1]== 'STM|FL090' or commands[x+1]== 'STM|FR090'):
-                        time.sleep(1.5*t)
-                    elif (commands[x+1]== 'STM|RPI'):
-                        time.sleep(2*t)
+                    if (commands[x+1]== 'STM|RPI'):
+                        if(commands[x]== 'STM|BR090' or commands[x]== 'STM|BL090'or commands[x]== 'STM|FL090' or commands[x]== 'STM|FR090'):
+                            time.sleep(3*t)
+                        else: 
+                            time.sleep(t)
                     else:
-                        time.sleep(t)
+                        time.sleep(t / 3 * 2)
                 else:
                     time.sleep(t)
-                
+                print(command)
+                server.send(command)
                 #if(command != "RPI|"):
                     #updateRoboPos(roboPosCoor, command)
                    # roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
@@ -136,6 +137,7 @@ def main(simulator):
                         server.send(s)
                     else:
                         print("Moving backwards")
+                        time.sleep(t)
                         server.send(reverse)
                         print(reverse)
                         time.sleep(t)
@@ -154,7 +156,8 @@ def main(simulator):
                             server.send(s)
                         print("Moving Forward to offset")
                         server.send(forward)
-                        time.sleep(t)
+                        # time.sleep(t)
+                        
                        
                        
 
