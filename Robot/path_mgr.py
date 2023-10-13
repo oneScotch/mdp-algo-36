@@ -53,7 +53,7 @@ class Brain:
                 # print(i, index_list)
                 # print(ob.getIndex())
                 index_list[i].append(ob.getIndex())
-                print(f"{ob}")
+                #print(f"{ob}")
         # print(perms)
         return perms, index_list
 
