@@ -102,6 +102,8 @@ def main(simulator):
             time.sleep(t)
             clen =len(commands)
             for x ,command in enumerate(commands):
+                print(command)
+                server.send(command)
                 print(f"Sending path commands to move to obstacle {index_list[index]} to RPI to STM...")
                 
                 if (x<clen-1):
@@ -114,8 +116,7 @@ def main(simulator):
                         time.sleep(t / 3 * 2)
                 else:
                     time.sleep(t)
-                print(command)
-                server.send(command)
+                
                 #if(command != "RPI|"):
                     #updateRoboPos(roboPosCoor, command)
                    # roboUpdateToAndroid = f"AND|ROBOT,<{roboPosCoor['x']//10}>,<{roboPosCoor['y']//10}>,<{roboPosCoor['direction']}>"
