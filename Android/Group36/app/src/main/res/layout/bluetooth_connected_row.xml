@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/btConnectName"
+        android:layout_width="85dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Device Name"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/btAddress"
+        app:layout_constraintHorizontal_bias="0.343"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btAddress"
+        android:layout_width="174dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="56dp"
+        android:text="Connection Status"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

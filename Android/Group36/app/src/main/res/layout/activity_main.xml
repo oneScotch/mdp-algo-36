@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgd2"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/btnResetRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/imageBlue"
+        android:text="Reset Robot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnStartRobot" />
+
+    <Button
+        android:id="@+id/btnStartRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/imageBlue"
+        android:text="Start Robot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnReset" />
+
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/imageBlue"
+        android:text="Reset Arena"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <Button
+        android:id="@+id/btnChangeObsFace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/imageBlue"
+        android:text="Set Obs Face"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnResetRobot" />
+
+    <TextView
+        android:id="@+id/statusTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/round_border_green"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="ROBOT STATUS"
+        android:textColor="@color/colorWhite"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/statusMsg"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toStartOf="@+id/statusMsg"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <TextView
+        android:id="@+id/statusMsg"
+        android:layout_width="373dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/round_border_green"
+        android:gravity="center_horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:text="Not Connected"
+        android:textColor="@color/colorWhite"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnStartRobot"
+        app:layout_constraintHorizontal_bias="0.412"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusTitle" />
+
+    <Button
+        android:id="@+id/buttonRight"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_buttons"
+        android:foreground="@drawable/ic_arrow_right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFront" />
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/circle_buttons"
+        android:foreground="@drawable/ic_arrow_down"
+        app:layout_constraintEnd_toEndOf="@+id/buttonRight"
+        app:layout_constraintEnd_toStartOf="@+id/buttonRight"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFront" />
+
+    <Button
+        android:id="@+id/buttonLeft"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/circle_buttons"
+        android:foreground="@drawable/ic_arrow_left"
+        app:layout_constraintEnd_toStartOf="@+id/buttonBack"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFront" />
+
+    <Button
+        android:id="@+id/buttonFront"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/circle_buttons"
+        android:backgroundTint="@color/purple_200"
+        android:foreground="@drawable/ic_arrow_up"
+        app:layout_constraintEnd_toEndOf="@+id/buttonBack"
+        app:layout_constraintStart_toStartOf="@+id/buttonBack"
+        app:layout_constraintTop_toBottomOf="@+id/btnChangeObsFace"
+        app:rippleColor="#A84646" />
+
+    <TextView
+        android:id="@+id/chatBox"
+        android:layout_width="428dp"
+        android:layout_height="185dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/round_borders"
+        android:gravity="bottom"
+        android:paddingLeft="10dp"
+        android:scrollbars="vertical"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusMsg" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="270dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/round_borders"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chatBox"></EditText>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <Button
+        android:id="@+id/btSend"
+        android:layout_width="79dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Send"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toEndOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/chatBox" />
+
+    <TextView
+        android:id="@+id/tvRobotPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="7dp"
+        android:text="Robot Position:"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <TextView
+        android:id="@+id/txtRobotPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:elevation="7dp"
+        android:textColor="#FF5722"
+        app:layout_constraintStart_toEndOf="@+id/tvRobotPosition"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <TextView
+        android:id="@+id/tvRobotDirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:elevation="7dp"
+        android:text="Robot Direction:"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/tvRobotPosition"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <TextView
+        android:id="@+id/txtRobotDirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:elevation="7dp"
+        android:textColor="#FF5722"
+        app:layout_constraintStart_toEndOf="@+id/tvRobotDirection"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <TextView
+        android:id="@+id/tvXPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:elevation="7dp"
+        android:text="X Position: "
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/tvRobotDirection"
+        app:layout_constraintStart_toStartOf="@+id/txtRobotDirection"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <TextView
+        android:id="@+id/txtXPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="7dp"
+        android:textColor="#FF5722"
+        app:layout_constraintStart_toEndOf="@+id/tvXPosition"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <TextView
+        android:id="@+id/tvYPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:elevation="7dp"
+        android:text="Y Position: "
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/tvXPosition"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <TextView
+        android:id="@+id/txtYPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="7dp"
+        android:textColor="#FF5722"
+        app:layout_constraintStart_toEndOf="@+id/tvYPosition"
+        app:layout_constraintTop_toBottomOf="@+id/arenaBound" />
+
+    <LinearLayout
+        android:id="@+id/arenaBound"
+        android:layout_width="500dp"
+        android:layout_height="450dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/cornSilk"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <view
+            android:id="@+id/mapView"
+            class="com.example.androidgroup36.ArenaMap"
+            android:layout_width="500dp"
+            android:layout_height="450dp"
+            android:layout_marginBottom="10dp"
+            android:alpha="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/goToBluetooth"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_buttons"
+        android:foreground="@drawable/bluetooth_icon"
+        android:onClick="bluetoothActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sendObstacle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_buttons"
+        android:foreground="@drawable/obs"
+        android:onClick="sendObstacle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goToBluetooth" />
+
+    <Button
+        android:id="@+id/btnStartDetection"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_buttons"
+        android:foreground="@drawable/detect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendObstacle" />
+
+    <Button
+        android:id="@+id/btnStartFastest"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_buttons"
+        android:foreground="@drawable/start3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendObstacle" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
