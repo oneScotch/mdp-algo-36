@@ -1,0 +1,31 @@
+#import sys
+#sys.path.append('/usr/lib/python3/dist-packages')
+
+from picamera import PiCamera
+from sendtopc import *
+import socket
+
+#take pic and send to img rec server then return label 
+def imgRec():
+    camera = PiCamera()
+    camera.resolution=(640,640)
+    camera.framerate = 10
+    camera.iso = 0
+    camera.rotation = 180
+    timestamp = time.strftime("%Y%m%d%H%M%S")
+    #video_filename = f'/home/pi/RPIV3/video_{timestamp}.h264'
+
+    print("Taking video ")
+    camera.start_recording('/home/pi/RPIV3/RPI Server/video.h264')
+    camera.wait_recording(10)  
+    camera.stop_recording()
+    
+    print("Going to next function")
+    label = sendImgToPC()
+    camera.close()
+    print(label)
+    return label.strip().decode()
+
+if __name__ == '__main__':
+    
+    imgRec()
