@@ -2,7 +2,6 @@ import math
 from abc import ABC, abstractmethod
 from Settings.config import *
 from Settings.attributes import *
-from Settings.direction import *
 from Map.position import *
 
 
@@ -60,8 +59,6 @@ class ScanCommand(Command):
         pass
 
     def convert_to_message(self):
-        # Just return a string of s's
-        # return f"S{self.obj_index:01}"
         return "STM|RPI"
 
 class StraightCommand(Command):
@@ -104,17 +101,9 @@ class StraightCommand(Command):
         return self
 
     def convert_to_message(self):
-        # MESSAGE: fXXXX for forward, bXXXX for backward.
-        # XXXX is the distance in decimal in centimeters.
 
-        # Note that the distance is now scaled.
-        # Therefore, we need to de-scale it.
-        descaled_distance = int(self.dist // SCALING_FACTOR)
-        # Check if forward or backward.
         if descaled_distance < 0:
-            # It is a backward command.
             return f"STM|BC{abs(descaled_distance):03}"
-        # Else, it is a forward command.
         return f"STM|FC{descaled_distance:03}"
 
 
@@ -181,10 +170,6 @@ class TurnCommand(Command):
         y_change = ROBOT_TURN_RADIUS_Y * (math.cos(math.radians(curr_pos.angle + self.angle)) -
                                                 math.cos(math.radians(curr_pos.angle)))
 
-        # x_change = ROBOT_TURN_RADIUS * (math.sin(math.radians(curr_pos.angle + self.angle)) -
-        #                                         math.sin(math.radians(curr_pos.angle)))
-        # y_change = ROBOT_TURN_RADIUS * (math.cos(math.radians(curr_pos.angle + self.angle)) -
-        #                                         math.cos(math.radians(curr_pos.angle)))
         if self.angle < 0 and not self.rev:  # Wheels to right moving forward.
             curr_pos.x -= x_change
             curr_pos.y += y_change
@@ -216,13 +201,13 @@ class TurnCommand(Command):
     def convert_to_message(self):
         if self.angle > 0 and not self.rev:
             # This is going forward left.
-            return "STM|FL090"  # Note the smaller case L.
+            return "STM|FL090"
         elif self.angle > 0 and self.rev:
-            # This is going backward and with the wheels to the right.
+            # This is going backward right.
             return "STM|BR090"
         elif self.angle < 0 and not self.rev:
             # This is going forward right.
             return "STM|FR090"
         else:
-            # This is going backward and with the wheels to the left.
+            # This is going backward left.
             return "STM|BL090"

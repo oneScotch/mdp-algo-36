@@ -30,11 +30,6 @@ class Grid:
         return nodes
 
     def get_coordinate_node(self, x, y):
-        """
-        Get the corresponding Node object that contains specified x, y coordinates.
-
-        Note that the x-y coordinates are in terms of the grid, and must be scaled properly.
-        """
         col_num = math.floor(x / GRID_CELL_LENGTH)
         row_num = GRID_NUM_GRIDS - math.floor(y / GRID_CELL_LENGTH) - 1
         try:
@@ -61,9 +56,6 @@ class Grid:
         return self.obstacles
 
     def check_valid_position(self, pos: Position):
-        """
-        Check if a current position can be here.
-        """
         # Check if position is inside any obstacle.
         if any(obstacle.check_within_boundary(*pos.xy()) for obstacle in self.obstacles):
             return False

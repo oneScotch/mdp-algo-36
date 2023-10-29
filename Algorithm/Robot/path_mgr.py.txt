@@ -22,11 +22,8 @@ class Brain:
 
 
     def compute_simple_hamiltonian_path(self) -> Tuple[Obstacle]:
-        """
-        Get the Hamiltonian Path to all points with the best possible effort.
-        This is a simple calculation where we assume that we travel directly to the next obstacle.
-        """
-        # Generate all possible permutations for the image obstacles
+
+        # Generate all possible sequences of obstacles
         perms = list(itertools.permutations(self.grid.obstacles))
 
         index_list = [[] for i in range(len(perms))]
@@ -44,7 +41,6 @@ class Brain:
                                   ((targets[i][1] - targets[i + 1][1]) ** 2))
             return dist
 
-        # simple = min(perms, key=calc_distance)
         perms.sort(key=calc_distance)
         print("Found a simple hamiltonian path:")
         for i, simple in enumerate(perms):
@@ -58,11 +54,6 @@ class Brain:
         return perms, index_list
 
     def compress_paths(self):
-        """
-        Compress similar commands into one command.
-
-        Helps to reduce the number of commands.
-        """
         print("Compressing commands... ", end="")
         index = 0
         new_commands = deque()
@@ -168,24 +159,3 @@ class Brain:
             print(f"{ob}")
         return simple, index_list
 
-
-    # def plan_bullseye(self):
-    #     print("-" * 40)
-    #     print("STARTING PATH COMPUTATION AFTER ENCOUNTERING BULLSEYE...")
-    #     self.simple_hamiltonian = self.compute_simple_hamiltonian_path()
-    #     print()
-
-    #     curr = self.robot.pos.copy()  # We use a copy rather than get a reference.
-    #     for obstacle in self.simple_hamiltonian:
-    #         target = obstacle.get_robot_target_pos()
-    #         print(f"Planning {curr} to {target}")
-    #         res = ModifiedAStar(self.grid, self, curr, target).start_astar()
-    #         if res is None:
-    #             print(f"\tNo path found from {curr} to {obstacle}")
-    #         else:
-    #             print("\tPath found.")
-    #             curr = res
-    #             self.commands.append(ScanCommand(ROBOT_SCAN_TIME, obstacle.index))
-
-    #     self.compress_paths()
-    #     print("-" * 40)

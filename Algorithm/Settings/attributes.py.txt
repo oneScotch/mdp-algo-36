@@ -1,10 +1,17 @@
 from Settings.config import *
+from enum import Enum
 
+
+class Direction(Enum):
+    LEFT = 180
+    TOP = 90
+    BOTTOM = -90
+    RIGHT = 0
 
 # Robot Attributes
 ROBOT_START_X = 15 * SCALING_FACTOR
 ROBOT_START_Y = 15 * SCALING_FACTOR
-ROBOT_LENGTH = 20 * SCALING_FACTOR  # Recommended robot footprint is 30cm by 30cm
+ROBOT_LENGTH = 20 * SCALING_FACTOR  # robot footprint setted as 20 * 20(recommended 30 * 30)
 ROBOT_TURN_RADIUS = 20 * SCALING_FACTOR
 ROBOT_TURN_RADIUS_DRIFT = 30 * SCALING_FACTOR
 ROBOT_SPEED_PER_SECOND = 30 * SCALING_FACTOR
@@ -24,6 +31,4 @@ OBSTACLE_SAFETY_WIDTH = ROBOT_SAFETY_DISTANCE + OBSTACLE_LENGTH // 2  # With res
 
 # Path Finding Attributes
 PATH_TURN_COST = 999 * ROBOT_SPEED_PER_SECOND * ROBOT_TURN_RADIUS
-# NOTE: Higher number == Lower Granularity == Faster Checking.
-# Must be an integer more than 0! Number higher than 3 not recommended.
 PATH_TURN_CHECK_GRANULARITY = 1

@@ -24,15 +24,6 @@ class ModifiedAStar:
         return self.total_cost
 
     def get_neighbours(self, pos: RobotPosition) -> List[Tuple[Node, RobotPosition, int, Command]]:
-        """
-        Get movement neighbours from this position.
-
-        Note that all values in the Position object (x, y, direction) are all with respect to the grid!
-
-        We also expect the return Positions to be with respect to the grid.
-        """
-        # We assume the robot will always make a full 90-degree turn to the next neighbour, and that it will travel
-        # a fix distance of 10 when travelling straight.
         neighbours = []
 
         # Check travel straights.
@@ -64,12 +55,6 @@ class ModifiedAStar:
         return neighbours
 
     def check_valid_command(self, command: Command, p: RobotPosition):
-        """
-        Checks if a command will bring a point into any invalid position.
-
-        If invalid, we return None for both the resulting grid location and the resulting position.
-        """
-        # Check specifically for validity of turn command.
         p = p.copy()
         if isinstance(command, TurnCommand):
             p_c = p.copy()
@@ -86,18 +71,14 @@ class ModifiedAStar:
         return None, None
 
     def heuristic(self, curr_pos: RobotPosition):
-        """
-        Measure the difference in distance between the provided position and the
-        end position.
-        """
         dx = abs(curr_pos.x - self.end.x)
         dy = abs(curr_pos.y - self.end.y)
         return math.sqrt(dx ** 2 + dy ** 2)
 
     def start_astar(self):
-        frontier = PriorityQueue()  # Store frontier nodes to travel to.
-        backtrack = dict()  # Store the sequence of nodes being travelled.
-        cost = dict()  # Store the cost to travel from start to a node.
+        frontier = PriorityQueue()
+        backtrack = dict()
+        cost = dict()
 
         # We can check what the goal node is
         goal_node = self.grid.get_coordinate_node(*self.end.xy()).copy()  # Take note of copy!
@@ -122,8 +103,6 @@ class ModifiedAStar:
                 self.total_cost=cost[goal_node]
                 return current_position
 
-            # Otherwise, we check through all possible locations that we can
-            # travel to from this node.
             for new_node, new_pos, weight, c in self.get_neighbours(current_position):
 
                 new_cost = cost.get(current_node) + weight
@@ -135,8 +114,6 @@ class ModifiedAStar:
                     frontier.put((priority, offset, (new_node, new_pos)))
                     backtrack[new_node] = (current_node, c)
                     cost[new_node] = new_cost
-        # If we are here, means that there was no path that we could find.
-        # We return None to show that we cannot find a path.
         return None
 
     def extract_commands(self, backtrack, goal_node):

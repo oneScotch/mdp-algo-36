@@ -2,9 +2,8 @@ import json
 import time
 from turtle import distance
 from Simulator.simulator import AlgoSimulator, AlgoMinimal
-from Simulator.simulator_mgr import parse_obstacle_data_cur
+from Simulator.simulator_mgr import parse_obstacle_data
 from Connection.client import Client
-from Navigate.roam import roam
 from Connection.server import Server
 
 
@@ -69,7 +68,7 @@ def main(simulator):
 
 
 
-            obstacles = parse_obstacle_data_cur(obst_list)
+            obstacles = parse_obstacle_data(obst_list)
             print(f"After parsing: {obstacles}")
 
             print("===============================Calculate path===============================")

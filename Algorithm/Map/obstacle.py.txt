@@ -1,7 +1,7 @@
 import pygame
 from Settings.attributes import *
 from Settings.config import *
-from Settings.direction import *
+
 from Map.position import *
 from Settings.colors import *
 
@@ -66,16 +66,6 @@ class Obstacle:
         ]
 
     def get_robot_target_pos(self):
-        """
-        Returns the point that the robot should target for, including the target orientation.
-
-        Note that the target orientation is now with respect to the robot. If the robot needs to face right, then
-        we use 0 degrees.
-
-        We can store this information within a Position object.
-
-        The object will also store the angle that the robot should face.
-        """
 
         if self.pos.direction == Direction.TOP:
             return RobotPosition(self.pos.x, self.pos.y + OBSTACLE_SAFETY_WIDTH  + ROBOT_LENGTH, Direction.BOTTOM)
