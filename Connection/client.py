@@ -19,7 +19,7 @@ class Client:
         print("Connected to ALGO!")
 
     def send(self, d):
-        data = d.encode()
+        data = d.encode('utf-8')
         self.socket.send(data)
 
     def receive(self):
@@ -42,7 +42,7 @@ class Client:
 
 
 if __name__ == '__main__':
-    client = Client("192.168.13.1", 3004)
+    client = Client("192.168.36.36", 3004)
     client.connect()
     datas = client.receive()
     if client.is_json(datas):  # Receive obstacle data

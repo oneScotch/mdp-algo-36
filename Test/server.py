@@ -27,14 +27,17 @@ class Server:
     
     def receive(self):
         msg = self.clientSocket.recv(1024)
-        d = pickle.loads(msg)
-        return(d)
+       #d = pickle.loads(msg)
+        return(msg)
         
     def close(self):
         print("Closing server socket.")
         self.socket.close()
 
 if __name__ == '__main__':
-    server = Server("10.27.196.78", 3004)
+    server = Server("192.168.36.37", 3004)
     server.start()
-    server.receive()
+    test = "Connected to Algo"
+    server.send(test)
+    server.close()
+   
